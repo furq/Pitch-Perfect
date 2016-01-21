@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Pitch Perfect
 //
-//  Created by Khan, Furqan | Furqan | ISDOD on 1/7/16.
+//  Created by Khan, Furqan on 1/7/16.
 //  Copyright © 2016 Khan, Furqan. All rights reserved.
 //
 
