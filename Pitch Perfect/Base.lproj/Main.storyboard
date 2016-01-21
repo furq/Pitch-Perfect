@@ -119,7 +119,7 @@
                                     <action selector="stopAudio:" destination="tRV-uK-w7M" eventType="touchUpInside" id="NEC-wl-Mrg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QmG-Fs-Bze">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QmG-Fs-Bze" userLabel="Slow Button">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" image="slow"/>
                                 <connections>
@@ -140,11 +140,31 @@
                                     <action selector="playDarthvaderAudio:" destination="tRV-uK-w7M" eventType="touchUpInside" id="Okp-N4-faN"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTc-2C-HPg" userLabel="Echo Button">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" image="echo"/>
+                                <connections>
+                                    <action selector="playEchoAudio:" destination="tRV-uK-w7M" eventType="touchUpInside" id="aWC-Xd-2C5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7x-f2-2UV" userLabel="Reverb Button">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" image="reverb"/>
+                                <connections>
+                                    <action selector="playReverbAudio:" destination="tRV-uK-w7M" eventType="touchUpInside" id="Z4r-IC-0Ef"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="XTc-2C-HPg" firstAttribute="top" secondItem="erX-cW-SMJ" secondAttribute="bottom" constant="50" id="2gc-1K-Qns"/>
+                            <constraint firstItem="t7x-f2-2UV" firstAttribute="top" secondItem="hXz-ef-KJ2" secondAttribute="bottom" constant="32" id="Bam-S4-a6e">
+                                <variation key="widthClass=compact" constant="50"/>
+                            </constraint>
                             <constraint firstItem="aaf-Yj-U2B" firstAttribute="centerX" secondItem="C4r-LT-ivP" secondAttribute="centerX" id="EBa-PD-bPs"/>
                             <constraint firstItem="QmG-Fs-Bze" firstAttribute="top" secondItem="dIA-vA-eC1" secondAttribute="bottom" constant="50" id="IDf-oW-Xlw"/>
+                            <constraint firstItem="XTc-2C-HPg" firstAttribute="leading" secondItem="C4r-LT-ivP" secondAttribute="leadingMargin" constant="30" id="LGC-6P-ujS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="t7x-f2-2UV" secondAttribute="trailing" constant="30" id="Ryj-1E-cbP"/>
                             <constraint firstItem="5Nv-qG-Jza" firstAttribute="top" secondItem="aaf-Yj-U2B" secondAttribute="bottom" constant="30" id="VdP-fY-bWQ"/>
                             <constraint firstItem="hXz-ef-KJ2" firstAttribute="top" secondItem="fhO-f7-Ziq" secondAttribute="bottom" constant="50" id="dP1-zl-x8b"/>
                             <constraint firstItem="fhO-f7-Ziq" firstAttribute="top" secondItem="dIA-vA-eC1" secondAttribute="bottom" constant="50" id="isW-k4-WEZ"/>
@@ -161,18 +181,24 @@
                                 <exclude reference="QmG-Fs-Bze"/>
                                 <exclude reference="erX-cW-SMJ"/>
                                 <exclude reference="hXz-ef-KJ2"/>
+                                <exclude reference="XTc-2C-HPg"/>
+                                <exclude reference="t7x-f2-2UV"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="VdP-fY-bWQ"/>
                                 <exclude reference="IDf-oW-Xlw"/>
                                 <exclude reference="ly9-MX-0NJ"/>
-                                <exclude reference="EBa-PD-bPs"/>
                                 <exclude reference="rDR-CM-9y3"/>
                                 <exclude reference="ulb-PF-i3V"/>
                                 <exclude reference="isW-k4-WEZ"/>
                                 <exclude reference="wQ5-yN-oG1"/>
                                 <exclude reference="dP1-zl-x8b"/>
                                 <exclude reference="szp-oX-l8r"/>
+                                <exclude reference="2gc-1K-Qns"/>
+                                <exclude reference="LGC-6P-ujS"/>
+                                <exclude reference="Bam-S4-a6e"/>
+                                <exclude reference="Ryj-1E-cbP"/>
+                                <exclude reference="EBa-PD-bPs"/>
+                                <exclude reference="VdP-fY-bWQ"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -182,28 +208,27 @@
                                 <include reference="QmG-Fs-Bze"/>
                                 <include reference="erX-cW-SMJ"/>
                                 <include reference="hXz-ef-KJ2"/>
+                                <include reference="XTc-2C-HPg"/>
+                                <include reference="t7x-f2-2UV"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="VdP-fY-bWQ"/>
                                 <include reference="IDf-oW-Xlw"/>
                                 <include reference="ly9-MX-0NJ"/>
-                                <include reference="EBa-PD-bPs"/>
                                 <include reference="rDR-CM-9y3"/>
                                 <include reference="ulb-PF-i3V"/>
                                 <include reference="isW-k4-WEZ"/>
                                 <include reference="wQ5-yN-oG1"/>
                                 <include reference="dP1-zl-x8b"/>
                                 <include reference="szp-oX-l8r"/>
+                                <include reference="2gc-1K-Qns"/>
+                                <include reference="LGC-6P-ujS"/>
+                                <include reference="Bam-S4-a6e"/>
+                                <include reference="Ryj-1E-cbP"/>
+                                <include reference="EBa-PD-bPs"/>
+                                <include reference="VdP-fY-bWQ"/>
                             </mask>
                         </variation>
                     </view>
-                    <connections>
-                        <outlet property="DarthvaderButton" destination="hXz-ef-KJ2" id="Bgf-1L-g0z"/>
-                        <outlet property="chipmunkButton" destination="erX-cW-SMJ" id="9FQ-LK-fKA"/>
-                        <outlet property="fastButton" destination="fhO-f7-Ziq" id="DZZ-J2-tZK"/>
-                        <outlet property="slowButton" destination="QmG-Fs-Bze" id="CTg-93-OvH"/>
-                        <outlet property="stopButton" destination="aaf-Yj-U2B" id="GSD-vY-lCQ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uya-kz-Mg3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -231,8 +256,10 @@
     <resources>
         <image name="chipmunk" width="100" height="100"/>
         <image name="darthvader" width="100" height="100"/>
+        <image name="echo" width="100" height="100"/>
         <image name="fast" width="100" height="100"/>
         <image name="microphone" width="100" height="100"/>
+        <image name="reverb" width="100" height="100"/>
         <image name="slow" width="100" height="100"/>
         <image name="stop" width="50" height="50"/>
     </resources>

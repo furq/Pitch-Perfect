@@ -11,12 +11,8 @@ import AVFoundation
 
 class PlaySoundsViewController: UIViewController {
 
-  @IBOutlet weak var slowButton: UIButton!
-  @IBOutlet weak var fastButton: UIButton!
-  @IBOutlet weak var stopButton: UIButton!
-  @IBOutlet weak var chipmunkButton: UIButton!
-  @IBOutlet weak var DarthvaderButton: UIButton!
 
+  @IBOutlet weak var stopButton: UIButton!
   var audioPlayer: AVAudioPlayer!
   var receivedAudio: RecordedAudio!
   var audioEngine: AVAudioEngine!
@@ -25,14 +21,6 @@ class PlaySoundsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-    /* if  let filePath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3") {
-    let audioFileUrl = NSURL.fileURLWithPath(filePath)
-    audioPlayer = try!
-    AVAudioPlayer(contentsOfURL: audioFileUrl)
-
-    } else {
-    print("the filepath is empty")
-    }*/
 
     audioPlayer = try!
 
@@ -67,15 +55,22 @@ class PlaySoundsViewController: UIViewController {
     playAudioWithVaribalePitch(-1000)
   }
 
+  @IBAction func playEchoAudio(sender: AnyObject) {
+  }
+
+  @IBAction func playReverbAudio(sender: AnyObject) {
+  }
   @IBAction func stopAudio(sender: AnyObject) {
     audioPlayer.stop()
   }
 
+
+
   // Adjust audio rate and current time for player
   func playAudio(rate:Float, currentTime:Float) {
     if audioEngine.running {
-      audioEngine.stop()
-      audioEngine.reset()
+        audioEngine.stop()
+        audioEngine.reset()
     }
     audioPlayer.stop()
     audioPlayer.enableRate = true
