@@ -37,8 +37,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
   }
 
   @IBAction func recordAudio(sender: UIButton) {
-//  For debugging
-//  print("recording")
+    //  For debugging
+    //  print("recording")
     label.text = "Recording .."
     stopButton.hidden = false;
     let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
@@ -75,7 +75,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
       let data = sender as! RecordedAudio
       playSoundsVC.receivedAudio = data
     }
-
   }
 
   @IBAction func stopAudio(sender: UIButton) {

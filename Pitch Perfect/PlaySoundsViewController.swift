@@ -11,12 +11,14 @@ import AVFoundation
 
 class PlaySoundsViewController: UIViewController {
 
-
   @IBOutlet weak var stopButton: UIButton!
+
   var audioPlayer: AVAudioPlayer!
   var receivedAudio: RecordedAudio!
   var audioEngine: AVAudioEngine!
   var audioFile: AVAudioFile!
+  var audioReverb : AVAudioUnitReverb!
+  var audioPlayerNode: AVAudioPlayerNode!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,10 +27,9 @@ class PlaySoundsViewController: UIViewController {
     audioPlayer = try!
 
     AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
-
+    audioPlayerNode = AVAudioPlayerNode()
     audioEngine = AVAudioEngine()
     audioFile = try! AVAudioFile(forReading: receivedAudio.filePathUrl)
-
   }
 
   override func viewWillAppear(animated: Bool) {
@@ -37,12 +38,12 @@ class PlaySoundsViewController: UIViewController {
 
   //call action for slow Button press
   @IBAction func playSlowAudio(sender: UIButton) {
-    playAudio(0.5,currentTime: 0.0)
+    playAudio(0.5, currentTime: 0.0)
   }
 
   //call action for Fast Button press
   @IBAction func playFastAudio(sender: AnyObject) {
-    playAudio(2.0,currentTime: 0.0)
+    playAudio(2, currentTime: 0.0)
   }
 
   //call action for chipmunk Button press
@@ -55,23 +56,64 @@ class PlaySoundsViewController: UIViewController {
     playAudioWithVaribalePitch(-1000)
   }
 
+  //call action for echo Button press
   @IBAction func playEchoAudio(sender: AnyObject) {
+
+    audioEngine.stop()
+    audioEngine.reset()
+    audioPlayer.stop()
+
+    audioPlayerNode = AVAudioPlayerNode()
+
+    let echoEffect = AVAudioUnitDelay()
+    echoEffect.delayTime = NSTimeInterval(0.2)
+
+    audioEngine.attachNode(echoEffect)
+    audioEngine.attachNode(audioPlayerNode)
+    audioEngine.connect(audioPlayerNode, to: echoEffect, format: nil)
+    audioEngine.connect(echoEffect, to: audioEngine.outputNode, format: nil)
+
+    audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+    try! audioEngine.start()
+
+    audioPlayerNode.play()
   }
 
+  //call action for Reverb Button press
   @IBAction func playReverbAudio(sender: AnyObject) {
+    audioEngine.stop()
+    audioEngine.reset()
+    audioPlayer.stop()
+
+    audioPlayerNode = AVAudioPlayerNode()
+    audioReverb = AVAudioUnitReverb()
+    audioReverb.loadFactoryPreset(.LargeHall2)
+    audioReverb.wetDryMix = 50
+
+    audioEngine.attachNode(audioPlayerNode)
+    audioEngine.attachNode(audioReverb)
+    audioEngine.connect(audioPlayerNode, to: audioReverb, format: nil)
+    audioEngine.connect(audioReverb, to: audioEngine.outputNode, format: nil)
+
+    audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
+    try! audioEngine.start()
+
+    audioPlayerNode.play()
   }
+
+  // stop button action
   @IBAction func stopAudio(sender: AnyObject) {
     audioPlayer.stop()
+    audioEngine.stop()
+
   }
 
 
-
-  // Adjust audio rate and current time for player
+  //Adjust audio rate and current time for player
   func playAudio(rate:Float, currentTime:Float) {
-    if audioEngine.running {
-        audioEngine.stop()
-        audioEngine.reset()
-    }
+    audioEngine.stop()
+    audioEngine.reset()
+
     audioPlayer.stop()
     audioPlayer.enableRate = true
     audioPlayer.rate = rate
@@ -85,22 +127,23 @@ class PlaySoundsViewController: UIViewController {
     audioEngine.stop()
     audioEngine.reset()
 
-    let audioPlayerNode = AVAudioPlayerNode()
-    audioEngine.attachNode(audioPlayerNode)
+    audioPlayerNode = AVAudioPlayerNode()
 
+    audioEngine.attachNode(audioPlayerNode)
     let changePitchEffect = AVAudioUnitTimePitch()
     changePitchEffect.pitch = pitch
-    audioEngine.attachNode(changePitchEffect)
 
+    audioEngine.attachNode(changePitchEffect)
     audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
     audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
 
     audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
     try! audioEngine.start()
-
+    
     audioPlayerNode.play()
-
+    
   }
+  
   
 }
 
