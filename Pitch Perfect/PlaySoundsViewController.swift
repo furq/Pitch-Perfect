@@ -26,7 +26,7 @@ class PlaySoundsViewController: UIViewController {
 
     audioPlayer = try!
 
-      AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
+    AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
     audioPlayerNode = AVAudioPlayerNode()
     audioEngine = AVAudioEngine()
     audioFile = try! AVAudioFile(forReading: receivedAudio.filePathUrl)
@@ -49,13 +49,11 @@ class PlaySoundsViewController: UIViewController {
   //call action for chipmunk Button press
   @IBAction func playChipmunkAudio(sender: AnyObject) {
     soundEffect(0, echo: 0, pitch: 1000)
-
   }
 
   //call action for Darthvader Button press
   @IBAction func playDarthvaderAudio(sender: AnyObject) {
     soundEffect(0, echo: 0, pitch: -1000)
-
   }
 
   //call action for echo Button press
@@ -126,7 +124,5 @@ class PlaySoundsViewController: UIViewController {
     audioEngine.reset()
     audioPlayer.stop()
   }
-  
-  
 }
 
