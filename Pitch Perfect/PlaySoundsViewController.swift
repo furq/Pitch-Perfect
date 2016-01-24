@@ -26,7 +26,7 @@ class PlaySoundsViewController: UIViewController {
 
     audioPlayer = try!
 
-    AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
+      AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl)
     audioPlayerNode = AVAudioPlayerNode()
     audioEngine = AVAudioEngine()
     audioFile = try! AVAudioFile(forReading: receivedAudio.filePathUrl)
@@ -48,100 +48,83 @@ class PlaySoundsViewController: UIViewController {
 
   //call action for chipmunk Button press
   @IBAction func playChipmunkAudio(sender: AnyObject) {
-    playAudioWithVaribalePitch(1000)
+    soundEffect(0, echo: 0, pitch: 1000)
+
   }
 
   //call action for Darthvader Button press
   @IBAction func playDarthvaderAudio(sender: AnyObject) {
-    playAudioWithVaribalePitch(-1000)
+    soundEffect(0, echo: 0, pitch: -1000)
+
   }
 
   //call action for echo Button press
   @IBAction func playEchoAudio(sender: AnyObject) {
-
-    audioEngine.stop()
-    audioEngine.reset()
-    audioPlayer.stop()
-
-    audioPlayerNode = AVAudioPlayerNode()
-
-    let echoEffect = AVAudioUnitDelay()
-    echoEffect.delayTime = NSTimeInterval(0.2)
-
-    audioEngine.attachNode(echoEffect)
-    audioEngine.attachNode(audioPlayerNode)
-    audioEngine.connect(audioPlayerNode, to: echoEffect, format: nil)
-    audioEngine.connect(echoEffect, to: audioEngine.outputNode, format: nil)
-
-    audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
-    try! audioEngine.start()
-
-    audioPlayerNode.play()
+    soundEffect(0, echo: 0.2, pitch: 0)
   }
 
   //call action for Reverb Button press
   @IBAction func playReverbAudio(sender: AnyObject) {
-    audioEngine.stop()
-    audioEngine.reset()
-    audioPlayer.stop()
-
-    audioPlayerNode = AVAudioPlayerNode()
-    audioReverb = AVAudioUnitReverb()
-    audioReverb.loadFactoryPreset(.LargeHall2)
-    audioReverb.wetDryMix = 50
-
-    audioEngine.attachNode(audioPlayerNode)
-    audioEngine.attachNode(audioReverb)
-    audioEngine.connect(audioPlayerNode, to: audioReverb, format: nil)
-    audioEngine.connect(audioReverb, to: audioEngine.outputNode, format: nil)
-
-    audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
-    try! audioEngine.start()
-
-    audioPlayerNode.play()
+    soundEffect(50, echo: 0, pitch: 0)
   }
 
   // stop button action
   @IBAction func stopAudio(sender: AnyObject) {
-    audioPlayer.stop()
-    audioEngine.stop()
-
+    stopSound()
   }
 
 
   //Adjust audio rate and current time for player
   func playAudio(rate:Float, currentTime:Float) {
-    audioEngine.stop()
-    audioEngine.reset()
-
-    audioPlayer.stop()
+    stopSound()
     audioPlayer.enableRate = true
     audioPlayer.rate = rate
     audioPlayer.currentTime =  NSTimeInterval.init(currentTime)
     audioPlayer.play()
   }
 
-  // Add effect to an audio by altering its pitch value
-  func playAudioWithVaribalePitch(pitch: Float) {
-    audioPlayer.stop()
-    audioEngine.stop()
-    audioEngine.reset()
-
+  func soundEffect(reverb:Float, echo:Float, pitch:Float) {
+    stopSound()
     audioPlayerNode = AVAudioPlayerNode()
-
     audioEngine.attachNode(audioPlayerNode)
-    let changePitchEffect = AVAudioUnitTimePitch()
-    changePitchEffect.pitch = pitch
 
-    audioEngine.attachNode(changePitchEffect)
-    audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
-    audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
+    // add reverb effect
+    if reverb != 0 {
+      audioReverb = AVAudioUnitReverb()
+      audioReverb.loadFactoryPreset(.LargeHall2)
+      audioReverb.wetDryMix = reverb
+      audioEngine.attachNode(audioReverb)
+      audioEngine.connect(audioPlayerNode, to: audioReverb, format: nil)
+      audioEngine.connect(audioReverb, to: audioEngine.outputNode, format: nil)
+    }
+
+    // add echo effect
+    if echo != 0 {
+      let echoEffect = AVAudioUnitDelay()
+      echoEffect.delayTime = NSTimeInterval(echo)
+      audioEngine.attachNode(echoEffect)
+      audioEngine.connect(audioPlayerNode, to: echoEffect, format: nil)
+      audioEngine.connect(echoEffect, to: audioEngine.outputNode, format: nil)
+    }
+
+    // effect of pitch on sound
+    if pitch != 0 {
+      let changePitchEffect = AVAudioUnitTimePitch()
+      changePitchEffect.pitch = pitch
+      audioEngine.attachNode(changePitchEffect)
+      audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
+      audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
+    }
 
     audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
     try! audioEngine.start()
-    
     audioPlayerNode.play()
-    
+  }
+
+  func stopSound() {
+    audioEngine.stop()
+    audioEngine.reset()
+    audioPlayer.stop()
   }
   
   
